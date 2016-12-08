@@ -20,6 +20,9 @@
 		@inputText(addProductForm("stock"), '_label -> "Stock",'class -> "form-control")
 		@inputText(addProductForm("price"), '_label -> "Price",'class -> "form-control")
 
+		<!-- Hidden ID field - req for product updates -->
+		@inputText(addProductForm("id"), '_label -> "", 'hidden -> "hidden")
+
 	<!-- Add a submit button -->
   <div class="actions">
       <input type="submit" value="Add Product" class="btn btn-primary">

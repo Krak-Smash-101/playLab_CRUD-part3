@@ -68,14 +68,23 @@ public class HomeController extends Controller {
         }
 
         // Extract the product from the form object
-        Product newProduct = newProductForm.get();
+        Product p = newProductForm.get();
+
+        if (p.getId() == null){
+            //save to DB via Ebean
+            p.save();
+        }
+        //Product already exists so update
+        else if (p.getId() != null){
+            p.update();
+        }
 
         // Save to the database via Ebean (remember Product extends Model)
-        newProduct.save();
+        p.save();
 
         // Set a success message in temporary flash
         // for display in return view
-        flash("success", "Product " + newProduct.getName() + " has been created");
+        flash("success", "Product " + p.getName() + " has been created/updated");
 
         // Redirect to the admin home
         return redirect(controllers.routes.HomeController.products());
@@ -91,5 +100,28 @@ public class HomeController extends Controller {
 
         // Redirect to products page
         return redirect(routes.HomeController.products());
+    }
+
+    //Update a product by id
+    //called when edit button is presses
+    @Transactional
+    public Result updateProduct(Long id){
+
+        Product p;
+        Form<Product> productForm;
+
+        try{
+            //Find the product by id
+            p = Product.find.byId(id);
+
+            //Create a form based on the product class and fill using
+            productForm = formFactory.form(Product.class).fill(p);
+
+        }   catch(Exception ex) {
+            //Displays error message
+            return badRequest("error");
+        }
+        //Render the updateProduct view - pass the form
+        return ok(addProduct.render(productForm));
     }
 }

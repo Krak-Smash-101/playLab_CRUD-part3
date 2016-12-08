@@ -19,6 +19,9 @@ POST    /addProductSubmit           controllers.HomeController.addProductSubmit
 # Delete a product by an id passed as a parameter
 GET    /delProduct/:id            controllers.HomeController.deleteProduct(id: Long)
 
+#Update a product by Id
+GET     /updateProduct/:id         controllers.HomeController.updateProduct(id:Long)
+
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
